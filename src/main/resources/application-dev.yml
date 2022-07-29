@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://175.45.200.66:3306/linesdb?serverTimezone=Asia/Seoul
+    username: root
+    password: test1234!
