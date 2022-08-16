@@ -2,6 +2,7 @@ package com.linesteams.linesapiserver.book.service;
 
 import com.linesteams.linesapiserver.book.domain.Book;
 import com.linesteams.linesapiserver.book.domain.BookRepository;
+import com.linesteams.linesapiserver.book.dto.BookInfoItemDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +12,11 @@ import java.util.Optional;
 @Transactional
 public class BookService {
     private final BookRepository bookRepository;
+    private final NaverService naverService;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, NaverService naverService) {
         this.bookRepository = bookRepository;
+        this.naverService = naverService;
     }
 
     @Transactional(readOnly = true)
@@ -22,8 +25,11 @@ public class BookService {
     }
 
     public Book createBook(String isbn) {
-        // TODO ISBN을 가지고 조회하는 api필요.
-        // 해당 Api를 통해 처리해야함
-        return new Book();
+        BookInfoItemDto bookInfoItemDto = naverService.getBookByIsbn(isbn);
+        if (bookInfoItemDto == null) {
+            return null;
+        }
+
+        return bookRepository.save(Book.of(bookInfoItemDto));
     }
 }

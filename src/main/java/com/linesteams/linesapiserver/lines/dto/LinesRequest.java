@@ -7,11 +7,11 @@ import com.linesteams.linesapiserver.lines.domain.Ratio;
 import org.springframework.web.multipart.MultipartFile;
 
 public class LinesRequest {
-    private final String content;
-    private final String isbn;
-    private final Ratio ratio;
-    private final String background;
-    private final MultipartFile image;
+    public String content;
+    public String isbn;
+    public Ratio ratio;
+    public String background;
+    public MultipartFile image;
 
     public LinesRequest(String content, String isbn, Ratio ratio, String background, MultipartFile image) {
         this.content = content;

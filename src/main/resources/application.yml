@@ -13,3 +13,9 @@ logging:
   level:
     root: info
     web: debug
+
+lines:
+  naver:
+    url: https://openapi.naver.com
+    client-secret: xgxam3osyo
+    client-id: Ltr1_pDPga1mPjxgfhOr

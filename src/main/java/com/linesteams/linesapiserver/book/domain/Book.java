@@ -1,5 +1,7 @@
 package com.linesteams.linesapiserver.book.domain;
 
+import com.linesteams.linesapiserver.book.dto.BookInfoItemDto;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,12 +23,12 @@ public class Book {
     private String title;
 
     @Column
-    private String name;
+    private String author;
 
-    public Book(String isbn, String title, String name) {
+    public Book(String isbn, String title, String author) {
         this.isbn = isbn;
         this.title = title;
-        this.name = name;
+        this.author = author;
     }
 
     public Book() {
@@ -36,11 +38,15 @@ public class Book {
         return isbn;
     }
 
-    public String getName() {
-        return name;
+    public String getAuthor() {
+        return author;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public static Book of(BookInfoItemDto bookInfoItemDto) {
+        return new Book(bookInfoItemDto.getIsbn(), bookInfoItemDto.getTitle(), bookInfoItemDto.getAuthor());
     }
 }

@@ -6,12 +6,12 @@ import com.linesteams.linesapiserver.lines.domain.Lines;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
 
 public class LinesResponse {
-    private final Long id;
-    private final Ratio ratio;
-    private final String background;
-    private final String content;
-    private final BookResponse bookResponse;
-    private final Image image;
+    public Long id;
+    public Ratio ratio;
+    public String background;
+    public String content;
+    public BookResponse bookResponse;
+    public Image image;
 
     public LinesResponse(Long id, Ratio ratio, String background, String content, BookResponse bookResponse, Image image) {
         this.id = id;
@@ -20,6 +20,9 @@ public class LinesResponse {
         this.content = content;
         this.bookResponse = bookResponse;
         this.image = image;
+    }
+
+    public LinesResponse() {
     }
 
     public static LinesResponse of(Lines lines) {
@@ -50,5 +53,29 @@ public class LinesResponse {
 
     public Image getImage() {
         return image;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setRatio(Ratio ratio) {
+        this.ratio = ratio;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setBookResponse(BookResponse bookResponse) {
+        this.bookResponse = bookResponse;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 }
