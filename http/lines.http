@@ -1,35 +1,9 @@
 POST http://localhost:8080/v1/lines
-Content-Type: multipart/form-data; boundary=WebAppBoundary
+Content-Type: application/json
 
---WebAppBoundary
-Content-Disposition: form-data; name="image"; filename="sampleImage.png"
-
-< ./sampleImage.png
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="isbn"
-
-9791162243077
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="content"
-
-문장이 들어갑니다
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="ratio"
-
-ONE_BY_ONE
---WebAppBoundary--
-
---WebAppBoundary
-Content-Disposition: form-data; name="background"
-
-#000000
---WebAppBoundary--
-
-###
-
+{
+  "context": "노인과 바다는 좋다",
+  "isbn": "11119991",
+  "Ratio": "ONE_BY_ONE",
+  "background": "#111111"
+}

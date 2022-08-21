@@ -1,7 +1,6 @@
 package com.linesteams.linesapiserver.lines.dto;
 
 import com.linesteams.linesapiserver.book.dto.BookResponse;
-import com.linesteams.linesapiserver.lines.domain.Image;
 import com.linesteams.linesapiserver.lines.domain.Lines;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
 
@@ -11,24 +10,20 @@ public class LinesResponse {
     public String background;
     public String content;
     public BookResponse bookResponse;
-    public Image image;
 
-    public LinesResponse(Long id, Ratio ratio, String background, String content, BookResponse bookResponse, Image image) {
+    public LinesResponse(Long id, Ratio ratio, String background, String content, BookResponse bookResponse) {
         this.id = id;
         this.ratio = ratio;
         this.background = background;
         this.content = content;
         this.bookResponse = bookResponse;
-        this.image = image;
     }
 
     public LinesResponse() {
     }
 
     public static LinesResponse of(Lines lines) {
-        return new LinesResponse(lines.getId(), lines.getRatio(), lines.getBackground(), lines.getContent(),
-                BookResponse.of(lines.getBook()),
-                lines.getImage());
+        return new LinesResponse(lines.getId(), lines.getRatio(), lines.getBackground(), lines.getContent(), BookResponse.of(lines.getBook()));
     }
 
     public Long getId() {
@@ -51,9 +46,6 @@ public class LinesResponse {
         return bookResponse;
     }
 
-    public Image getImage() {
-        return image;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -73,9 +65,5 @@ public class LinesResponse {
 
     public void setBookResponse(BookResponse bookResponse) {
         this.bookResponse = bookResponse;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 }

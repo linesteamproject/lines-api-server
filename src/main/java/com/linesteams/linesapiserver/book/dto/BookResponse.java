@@ -17,6 +17,9 @@ public class BookResponse {
     }
 
     public static BookResponse of(Book book) {
+        if (book == null) {
+            return null;
+        }
         return new BookResponse(book.getTitle(), book.getAuthor(), book.getIsbn());
     }
 

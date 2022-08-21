@@ -3,7 +3,6 @@ package com.linesteams.linesapiserver.lines.domain;
 import com.linesteams.linesapiserver.book.domain.Book;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,15 +32,11 @@ public class Lines {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Embedded
-    private Image image;
-
-    public Lines(Ratio ratio, String background, String content, Book book, Image image) {
+    public Lines(Ratio ratio, String background, String content, Book book) {
         this.ratio = ratio;
         this.background = background;
         this.content = content;
         this.book = book;
-        this.image = image;
     }
 
     public Lines() {
@@ -65,9 +60,5 @@ public class Lines {
 
     public Book getBook() {
         return book;
-    }
-
-    public Image getImage() {
-        return image;
     }
 }
