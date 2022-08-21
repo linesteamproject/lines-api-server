@@ -6,6 +6,8 @@ import com.linesteams.linesapiserver.lines.domain.Lines;
 import com.linesteams.linesapiserver.lines.dto.LinesRequest;
 import com.linesteams.linesapiserver.lines.dto.LinesResponse;
 import com.linesteams.linesapiserver.lines.repository.LinesRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +29,10 @@ public class LinesService {
 
         Lines lines = linesRepository.save(request.toLines(book));
         return LinesResponse.of(lines);
+    }
+
+    public Page<LinesResponse> getLinesList(PageRequest pageRequest) {
+        return linesRepository.findAll(pageRequest)
+                .map(LinesResponse::of);
     }
 }

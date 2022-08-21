@@ -9,14 +9,18 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("문구 관련 기능")
 class LinesAcceptanceTest extends AcceptanceTest {
     public LinesRequest 노인과_바다 = new LinesRequest("노인과 바다는 좋다", "9788937462788", Ratio.ONE_BY_ONE, "#111111");
+    public LinesRequest 데미안 = new LinesRequest("데미안은 좋다", "9788937460449", Ratio.THREE_BY_FOUR, "#ffffff");
 
     @DisplayName("문구를 생성한다")
     @Test
@@ -29,6 +33,31 @@ class LinesAcceptanceTest extends AcceptanceTest {
         assertThat(result.id).isNotNull();
         assertThat(result.content).isEqualTo(노인과_바다.getContent());
         assertThat(result.bookResponse).isNotNull();
+    }
+
+    @DisplayName("저장된 문구들을 조회할 수 있다")
+    @Test
+    void getLinesList() {
+        // when
+        문구_생성_요청(노인과_바다);
+        문구_생성_요청(데미안);
+
+        // then
+        ExtractableResponse<Response> response = 문구_리스트_요청(PageRequest.of(0, 10));
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<LinesResponse> list = response.jsonPath().getList("content", LinesResponse.class);
+        assertThat(list.get(0).content).isEqualTo(노인과_바다.getContent());
+        assertThat(list.get(1).content).isEqualTo(데미안.getContent());
+    }
+
+    private ExtractableResponse<Response> 문구_리스트_요청(PageRequest pageRequest) {
+        return RestAssured
+                .given().log().all()
+                .when().get("/v1/lines?page={page}&size={size}", pageRequest.getPageNumber(), pageRequest.getPageSize())
+                .then().log().all()
+                .extract();
     }
 
     private ExtractableResponse<Response> 문구_생성_요청(LinesRequest request) {
