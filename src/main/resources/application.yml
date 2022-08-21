@@ -19,3 +19,9 @@ lines:
     url: https://openapi.naver.com
     client-secret: xgxam3osyo
     client-id: Ltr1_pDPga1mPjxgfhOr
+  ncp:
+    end-point: "https://kr.object.ncloudstorage.com"
+    region-name: "kr-standard"
+    access-key: jpUdLfDS2GZAKzymXB9h
+    secret-key: rvCpaZmbWwAk3V5uZeWmC07mnHQD0ABiTLVqmJ3L
+    image-bucket-name: lines-image
