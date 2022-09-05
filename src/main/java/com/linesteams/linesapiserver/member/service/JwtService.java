@@ -50,4 +50,11 @@ public class JwtService {
                 .setSigningKey(appConfig.getJwtSecretKey())
                 .parseClaimsJws(token);
     }
+
+    public Long getMemberId(String token) {
+        Jws<Claims> claims = parse(token);
+
+        String memberIdStr = String.valueOf(claims.getBody().get(ID));
+        return Long.valueOf(memberIdStr);
+    }
 }

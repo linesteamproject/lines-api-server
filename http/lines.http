@@ -7,3 +7,7 @@ Content-Type: application/json
   "Ratio": "ONE_BY_ONE",
   "background": "#111111"
 }
+
+###
+GET http://localhost:8080/v1/lines/test
+Authorization: beaerer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjYyMzg3MTIyLCJleHAiOjE2NjQ5NzkxMjJ9.-UOeHr54C6WC9MUYr_rx0M1lFokh05D3o1wRybO-qdE
