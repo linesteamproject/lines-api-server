@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("lines")
 public class AppConfig {
     private Naver naver;
+    private String jwtSecretKey;
+    private String loginRedirectUrl;
 
     @Getter
     @Setter
