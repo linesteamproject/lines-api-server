@@ -31,8 +31,8 @@ public class LinesService {
         return LinesResponse.of(lines);
     }
 
-    public Page<LinesResponse> getLinesList(PageRequest pageRequest) {
-        return linesRepository.findAll(pageRequest)
+    public Page<LinesResponse> getLinesList(Long memberId, PageRequest pageRequest) {
+        return linesRepository.findAllByMemberId(memberId, pageRequest)
                 .map(LinesResponse::of);
     }
 }

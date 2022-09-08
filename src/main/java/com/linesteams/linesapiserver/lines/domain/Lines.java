@@ -28,14 +28,18 @@ public class Lines {
     @Column
     private String content;
 
+    @Column
+    private Long memberId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    public Lines(Ratio ratio, String background, String content, Book book) {
+    public Lines(Ratio ratio, String background, String content, Long memberId, Book book) {
         this.ratio = ratio;
         this.background = background;
         this.content = content;
+        this.memberId = memberId;
         this.book = book;
     }
 

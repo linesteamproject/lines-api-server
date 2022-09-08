@@ -9,6 +9,7 @@ public class LinesRequest {
     public String isbn;
     public Ratio ratio;
     public String background;
+    public Long memberId;
 
     public LinesRequest() {
     }
@@ -37,6 +38,10 @@ public class LinesRequest {
     }
 
     public Lines toLines(Book book) {
-        return new Lines(ratio, background, content, book);
+        return new Lines(ratio, background, content, memberId, book);
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 }

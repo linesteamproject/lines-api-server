@@ -22,19 +22,16 @@ public class LinesController {
     }
 
     @PostMapping("/v1/lines")
-    public LinesResponse createLines(@RequestBody LinesRequest request) {
+    public LinesResponse createLines(@RequestBody LinesRequest request,
+                                     @MemberId Long memberId) {
+        request.setMemberId(memberId);
         return linesService.createLines(request);
     }
 
     @GetMapping("/v1/lines")
     public Page<LinesResponse> getLinesList(@RequestParam(defaultValue = "0") Integer page,
-                                            @RequestParam(defaultValue = "10") Integer size) {
-        return linesService.getLinesList(PageRequest.of(page, size));
+                                            @RequestParam(defaultValue = "10") Integer size,
+                                            @MemberId Long memberId) {
+        return linesService.getLinesList(memberId, PageRequest.of(page, size));
     }
-
-    @GetMapping("/v1/lines/test")
-    public Long testLogin(@MemberId Long memberId) {
-        return memberId;
-    }
-
 }
