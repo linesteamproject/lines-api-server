@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @Service
 public class JwtService {
     private static final String ID = "id";
-    private static final Integer TOKEN_EXPIRED_DAYS = 30;
+    private static final Integer ACCESS_TOKEN_EXPIRED_DAYS = 5;
+    private static final Integer REFRESH_TOKEN_EXPIRED_DAYS = 30;
 
     private final AppConfig appConfig;
 
@@ -22,7 +23,7 @@ public class JwtService {
         this.appConfig = appConfig;
     }
 
-    public String create(Long id) {
+    public String createAccessToken(Long id) {
         Claims claims = Jwts.claims();
         claims.put(ID, id);
 
@@ -32,16 +33,26 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, appConfig.getJwtSecretKey())
                 .setClaims(claims)
                 .setIssuedAt(Timestamp.valueOf(now))
-                .setExpiration(Timestamp.valueOf(now.plusDays(TOKEN_EXPIRED_DAYS)))
+                .setExpiration(Timestamp.valueOf(now.plusDays(ACCESS_TOKEN_EXPIRED_DAYS)))
                 .compact();
     }
 
-    public boolean isTokenValid(String token) {
+    public String createRefreshToken() {
+        LocalDateTime now = LocalDateTime.now();
+
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS256, appConfig.getJwtSecretKey())
+                .setIssuedAt(Timestamp.valueOf(now))
+                .setExpiration(Timestamp.valueOf(now.plusDays(REFRESH_TOKEN_EXPIRED_DAYS)))
+                .compact();
+    }
+
+    public boolean isNotValidToken(String token) {
         try {
             parse(token);
-            return true;
-        } catch (JwtException e) {
             return false;
+        } catch (JwtException e) {
+            return true;
         }
     }
 

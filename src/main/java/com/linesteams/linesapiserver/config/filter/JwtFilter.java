@@ -33,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (!jwtService.isTokenValid(jwtToken.getToken())) {
+        if (jwtService.isNotValidToken(jwtToken.getToken())) {
             throw new RuntimeException("토큰 유효성 검증에 실패하였습니다.");
         }
 

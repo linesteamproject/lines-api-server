@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "member")
@@ -19,6 +20,9 @@ public class Member {
 
     @Column(name = "oauth_type")
     private OAuthType oauthType;
+
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
     public Member(String oauthId, OAuthType oauthType) {
         this.oauthId = oauthId;
@@ -44,12 +48,15 @@ public class Member {
         return oauthType;
     }
 
-    @Override
-    public String toString() {
-        return "Member{" +
-                "id=" + id +
-                ", oauthId='" + oauthId + '\'' +
-                ", oauthType=" + oauthType +
-                '}';
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public boolean isNotEqualsRefreshToken(String refreshToken) {
+        return !Objects.equals(this.refreshToken, refreshToken);
     }
 }

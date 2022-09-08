@@ -1,0 +1,13 @@
+POST http://localhost:8080/v1/member/login
+Content-Type: application/json
+
+{
+  "id": "test",
+  "oauthId": "oauthTest",
+  "oauthType": "KAKAO"
+}
+
+###
+POST http://localhost:8080/v1/member/login/actions/refresh
+Authorization: beaerer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjYyNjQ4NzUzLCJleHAiOjE2NjMwODA3NTN9.CghrSPmTyx_WU4Ed-pCJ-Hwzz5ZB9ZiB3ezKtbF_Sws
+X-AUTH-REFRESH-TOKEN: eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NjI2NDg3NDEsImV4cCI6MTY2NTI0MDc0MX0.7wX-8PT2xeKi_Ri3V--VZ_IKF4AtcbVjb8H5IL5FOX4

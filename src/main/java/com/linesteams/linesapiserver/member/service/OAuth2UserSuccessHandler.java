@@ -28,7 +28,7 @@ public class OAuth2UserSuccessHandler implements AuthenticationSuccessHandler {
         OAuth2MemberContext memberContext = (OAuth2MemberContext) authentication.getPrincipal();
         try {
             Member member = memberService.createOrUpdate(memberContext.getName(), memberContext.getOAuthType());
-            String jwt = jwtService.create(member.getId());
+            String jwt = jwtService.createAccessToken(member.getId());
             redirectOnSuccess(response, jwt);
         } catch (Exception e) {
             redirectOnFail(response);
