@@ -1,6 +1,7 @@
 package com.linesteams.linesapiserver.lines.acceptance;
 
 import com.linesteams.linesapiserver.AcceptanceTest;
+import com.linesteams.linesapiserver.book.dto.BookRequest;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
 import com.linesteams.linesapiserver.lines.dto.LinesRequest;
 import com.linesteams.linesapiserver.lines.dto.LinesResponse;
@@ -19,8 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("문구 관련 기능")
 class LinesAcceptanceTest extends AcceptanceTest {
-    public LinesRequest 노인과_바다 = new LinesRequest("노인과 바다는 좋다", "9788937462788", Ratio.ONE_BY_ONE, "#111111");
-    public LinesRequest 데미안 = new LinesRequest("데미안은 좋다", "9788937460449", Ratio.THREE_BY_FOUR, "#ffffff");
+    private BookRequest 노인과_바다_책 = new BookRequest("노인과 바다", "해밍웨이", "9788937462788");
+    private BookRequest 데미안_책 = new BookRequest("데미안_책", "헤르만헤세", "9788937460449");
+    public LinesRequest 노인과_바다 = new LinesRequest("노인과 바다는 좋다", 노인과_바다_책, Ratio.ONE_BY_ONE, "#111111");
+    public LinesRequest 데미안 = new LinesRequest("데미안은 좋다", 데미안_책, Ratio.THREE_BY_FOUR, "#ffffff");
 
     @DisplayName("문구를 생성한다")
     @Test

@@ -25,7 +25,7 @@ public class LinesService {
 
     public LinesResponse createLines(LinesRequest request) {
         Book book = bookService.getBookByIsbn(request.getIsbn())
-                .orElseGet(() -> bookService.createBook(request.getIsbn()));
+                .orElseGet(() -> bookService.createBook(request.getBook()));
 
         Lines lines = linesRepository.save(request.toLines(book));
         return LinesResponse.of(lines);

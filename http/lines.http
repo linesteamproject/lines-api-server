@@ -1,13 +1,18 @@
 POST http://localhost:8080/v1/lines
+Authorization: beaerer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjYyNjUyMzkxLCJleHAiOjE2NjMwODQzOTF9.oGHTX29CEU0DSj6qzkvT1wrdY8Uhij3jaaIf769y5bU
 Content-Type: application/json
 
 {
-  "context": "노인과 바다는 좋다",
-  "isbn": "11119991",
-  "Ratio": "ONE_BY_ONE",
+  "book": {
+    "title": "노인과 바다",
+    "name": "헤르만헤세",
+    "isbn": "9788955619256"
+  },
+  "content": "노인과 바다는 좋다",
+  "ratio": "ONE_BY_ONE",
   "background": "#111111"
 }
 
 ###
-GET http://localhost:8080/v1/lines/test
-Authorization: beaerer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjYyMzg3MTIyLCJleHAiOjE2NjQ5NzkxMjJ9.-UOeHr54C6WC9MUYr_rx0M1lFokh05D3o1wRybO-qdE
+GET http://localhost:8080/v1/lines
+Authorization: beaerer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjYyNjUyMzkxLCJleHAiOjE2NjMwODQzOTF9.oGHTX29CEU0DSj6qzkvT1wrdY8Uhij3jaaIf769y5bU

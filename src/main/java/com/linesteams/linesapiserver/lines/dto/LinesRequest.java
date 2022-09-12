@@ -1,12 +1,13 @@
 package com.linesteams.linesapiserver.lines.dto;
 
 import com.linesteams.linesapiserver.book.domain.Book;
+import com.linesteams.linesapiserver.book.dto.BookRequest;
 import com.linesteams.linesapiserver.lines.domain.Lines;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
 
 public class LinesRequest {
     public String content;
-    public String isbn;
+    public BookRequest book;
     public Ratio ratio;
     public String background;
     public Long memberId;
@@ -14,9 +15,9 @@ public class LinesRequest {
     public LinesRequest() {
     }
 
-    public LinesRequest(String content, String isbn, Ratio ratio, String background) {
+    public LinesRequest(String content, BookRequest book, Ratio ratio, String background) {
         this.content = content;
-        this.isbn = isbn;
+        this.book = book;
         this.ratio = ratio;
         this.background = background;
     }
@@ -34,7 +35,7 @@ public class LinesRequest {
     }
 
     public String getIsbn() {
-        return isbn;
+        return book.getIsbn();
     }
 
     public Lines toLines(Book book) {
@@ -43,5 +44,9 @@ public class LinesRequest {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    public BookRequest getBook() {
+        return book;
     }
 }
