@@ -12,6 +12,9 @@ public class LoginRequest {
     @NotNull
     private OAuthType oauthType;
 
+    public LoginRequest() {
+    }
+
     public LoginRequest(String id, String oauthId, OAuthType oauthType) {
         this.id = id;
         this.oauthId = oauthId;

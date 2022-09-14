@@ -4,7 +4,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 
 public class JwtToken {
-    private static final String TOKEN_TYPE = "beaerer";
+    private static final String TOKEN_TYPE = "bearer";
 
     private final String token;
 

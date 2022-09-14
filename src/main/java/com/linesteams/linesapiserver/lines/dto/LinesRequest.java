@@ -1,5 +1,6 @@
 package com.linesteams.linesapiserver.lines.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.linesteams.linesapiserver.book.domain.Book;
 import com.linesteams.linesapiserver.book.dto.BookRequest;
 import com.linesteams.linesapiserver.lines.domain.Lines;
@@ -34,6 +35,7 @@ public class LinesRequest {
         return background;
     }
 
+    @JsonIgnore
     public String getIsbn() {
         return book.getIsbn();
     }

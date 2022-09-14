@@ -3,14 +3,17 @@ package com.linesteams.linesapiserver.book.dto;
 import com.linesteams.linesapiserver.book.domain.Book;
 
 public class BookRequest {
-    private final String title;
-    private final String name;
-    private final String isbn;
+    private String title;
+    private String name;
+    private String isbn;
 
     public BookRequest(String title, String name, String isbn) {
         this.title = title;
         this.name = name;
         this.isbn = isbn;
+    }
+
+    public BookRequest() {
     }
 
     public String getTitle() {

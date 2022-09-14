@@ -1,5 +1,6 @@
 package com.linesteams.linesapiserver.member.controller;
 
+import com.linesteams.linesapiserver.dto.ResponseDto;
 import com.linesteams.linesapiserver.member.dto.LoginRequest;
 import com.linesteams.linesapiserver.member.dto.LoginResponse;
 import com.linesteams.linesapiserver.member.service.MemberService;
@@ -20,13 +21,13 @@ public class LoginController {
     }
 
     @PostMapping("/v1/member/login")
-    public LoginResponse login(@RequestBody @Valid LoginRequest request) {
-        return memberService.createAccessToken(request);
+    public ResponseDto<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
+        return ResponseDto.of(memberService.createAccessToken(request));
     }
 
     @PostMapping("/v1/member/login/actions/refresh")
-    public LoginResponse refreshToken(@MemberId Long memberId,
-                                      @RequestHeader("X-AUTH-REFRESH-TOKEN") String refreshToken) {
-        return memberService.refreshToken(memberId, refreshToken);
+    public ResponseDto<LoginResponse> refreshToken(@MemberId Long memberId,
+                                                   @RequestHeader("X-AUTH-REFRESH-TOKEN") String refreshToken) {
+        return ResponseDto.of(memberService.refreshToken(memberId, refreshToken));
     }
 }

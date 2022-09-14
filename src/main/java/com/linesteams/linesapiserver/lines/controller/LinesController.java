@@ -1,5 +1,6 @@
 package com.linesteams.linesapiserver.lines.controller;
 
+import com.linesteams.linesapiserver.dto.ResponseDto;
 import com.linesteams.linesapiserver.lines.dto.LinesRequest;
 import com.linesteams.linesapiserver.lines.dto.LinesResponse;
 import com.linesteams.linesapiserver.lines.service.LinesService;
@@ -22,16 +23,16 @@ public class LinesController {
     }
 
     @PostMapping("/v1/lines")
-    public LinesResponse createLines(@RequestBody LinesRequest request,
-                                     @MemberId Long memberId) {
+    public ResponseDto<LinesResponse> createLines(@RequestBody LinesRequest request,
+                                                  @MemberId Long memberId) {
         request.setMemberId(memberId);
-        return linesService.createLines(request);
+        return ResponseDto.of(linesService.createLines(request));
     }
 
     @GetMapping("/v1/lines")
-    public Page<LinesResponse> getLinesList(@RequestParam(defaultValue = "0") Integer page,
-                                            @RequestParam(defaultValue = "10") Integer size,
-                                            @MemberId Long memberId) {
-        return linesService.getLinesList(memberId, PageRequest.of(page, size));
+    public ResponseDto<Page<LinesResponse>> getLinesList(@RequestParam(defaultValue = "0") Integer page,
+                                                         @RequestParam(defaultValue = "10") Integer size,
+                                                         @MemberId Long memberId) {
+        return ResponseDto.of(linesService.getLinesList(memberId, PageRequest.of(page, size)));
     }
 }
