@@ -29,7 +29,7 @@ class LinesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("문구를 생성한다")
     @Test
-    public void createLines() {
+    void createLines() {
         accessToken = MemberAcceptanceTest.로그인_엑세스_토큰_획득();
         // when
         ExtractableResponse<Response> response = 문구_생성_요청(노인과_바다);
@@ -43,7 +43,7 @@ class LinesAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("저장된 문구들을 조회할 수 있다")
     @Test
-    public void getLinesList() {
+    void getLinesList() {
         accessToken = MemberAcceptanceTest.로그인_엑세스_토큰_획득();
         // when
         문구_생성_요청(노인과_바다);
@@ -60,6 +60,10 @@ class LinesAcceptanceTest extends AcceptanceTest {
     }
 
     private ExtractableResponse<Response> 문구_리스트_요청(PageRequest pageRequest) {
+        return 문구_리스트_요청(pageRequest, accessToken);
+    }
+
+    public static ExtractableResponse<Response> 문구_리스트_요청(PageRequest pageRequest, String accessToken) {
         return RestAssured
                 .given().log().all()
                 .header(AUTHORIZATION, accessToken)

@@ -18,9 +18,11 @@ public class JwtService {
     private static final Integer REFRESH_TOKEN_EXPIRED_DAYS = 30;
 
     private final AppConfig appConfig;
+    private final LogoutService logoutService;
 
-    public JwtService(AppConfig appConfig) {
+    public JwtService(AppConfig appConfig, LogoutService logoutService) {
         this.appConfig = appConfig;
+        this.logoutService = logoutService;
     }
 
     public String createAccessToken(Long id) {
@@ -48,6 +50,10 @@ public class JwtService {
     }
 
     public boolean isNotValidToken(String token) {
+        if (logoutService.isLogoutToken(token)) {
+            return true;
+        }
+
         try {
             parse(token);
             return false;
