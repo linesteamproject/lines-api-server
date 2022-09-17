@@ -1,0 +1,6 @@
+### put versions
+PUT http://localhost:8080/v1/versions?version=1.0.1
+
+### check critical version update
+GET http://localhost:8080/v1/versions/check-critical-update-version?version=1.0.1
+
