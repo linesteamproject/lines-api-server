@@ -24,9 +24,13 @@ public class Member {
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
     public Member(String oauthId, OAuthType oauthType) {
         this.oauthId = oauthId;
         this.oauthType = oauthType;
+        this.deleted = false;
     }
 
     public Member() {
@@ -58,5 +62,9 @@ public class Member {
 
     public boolean isNotEqualsRefreshToken(String refreshToken) {
         return !Objects.equals(this.refreshToken, refreshToken);
+    }
+
+    public void delete() {
+        deleted = true;
     }
 }

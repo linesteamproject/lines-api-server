@@ -24,7 +24,7 @@ public class MemberService {
     }
 
     public Member createOrUpdate(String oauthId, OAuthType oauthType) {
-        Member member = memberRepository.findByOauthIdAndOauthType(oauthId, oauthType)
+        Member member = memberRepository.findByOauthIdAndOauthTypeAndDeletedFalse(oauthId, oauthType)
                 .orElseGet(() -> createMember(oauthId, oauthType));
 
         member.updateRefreshToken(jwtService.createRefreshToken());
@@ -34,7 +34,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member getMemberRaiseIfNotFound(Long memberId) {
-        return memberRepository.findById(memberId)
+        return memberRepository.findByIdAndDeletedFalse(memberId)
                 .orElseThrow(() -> new RuntimeException("멤버를 찾을 수 없습니다."));
     }
 
@@ -52,5 +52,10 @@ public class MemberService {
             throw new RuntimeException("리프레시 토큰값이 일치하지 않거나 토큰이 유효하지 않습니다.");
         }
         return new LoginResponse(jwtService.createAccessToken(member.getId()), member.getRefreshToken());
+    }
+
+    public void deleteMember(Long memberId) {
+        Member member = getMemberRaiseIfNotFound(memberId);
+        member.delete();
     }
 }

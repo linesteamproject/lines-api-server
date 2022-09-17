@@ -9,11 +9,9 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import static com.linesteams.linesapiserver.lines.acceptance.LinesAcceptanceTest.문구_리스트_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -58,9 +56,33 @@ public class MemberAcceptanceTest extends AcceptanceTest {
 
         토큰_로그아웃(loginResponse);
 
-        ExtractableResponse<Response> response = 문구_리스트_요청(PageRequest.of(0, 10), convertHeaderAccessToken(loginResponse.getAccessToken()));
+        ExtractableResponse<Response> response = 토큰_리프래시_요청(loginResponse);
         // TODO HttpStatus.UNAUTHORIZED.value 로 바꿔야함
         assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+    @DisplayName("회원 탈퇴된 유저는 사용할 수 없다")
+    @Test
+    void delete() {
+        // when
+        LoginResponse loginResponse = 로그인_성공(네이버_로그인);
+
+        ExtractableResponse<Response> deleteResponse = 회원탈퇴(loginResponse);
+        assertThat(deleteResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        ExtractableResponse<Response> response = 토큰_리프래시_요청(loginResponse);
+        // TODO HttpStatus.UNAUTHORIZED.value 로 바꿔야함
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+    private ExtractableResponse<Response> 회원탈퇴(LoginResponse loginResponse) {
+        return RestAssured
+                .given().log().all()
+                .header(AUTHORIZATION, convertHeaderAccessToken(loginResponse.getAccessToken()))
+                .header("X-AUTH-REFRESH-TOKEN", loginResponse.getRefreshToken())
+                .when().delete("/v1/member")
+                .then().log().all()
+                .extract();
     }
 
     private static ExtractableResponse<Response> 로그인_요청(LoginRequest request) {
@@ -106,7 +128,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     private ExtractableResponse<Response> 토큰_리프래시_요청(LoginResponse loginResponse) {
         return RestAssured
                 .given().log().all()
-                .header(AUTHORIZATION, ACCESS_TOKEN_PREFIX + loginResponse.getAccessToken())
+                .header(AUTHORIZATION, convertHeaderAccessToken(loginResponse.getAccessToken()))
                 .header("X-AUTH-REFRESH-TOKEN", loginResponse.getRefreshToken())
                 .when().post("/v1/member/login/actions/refresh")
                 .then().log().all()
@@ -116,7 +138,7 @@ public class MemberAcceptanceTest extends AcceptanceTest {
     private ExtractableResponse<Response> 토큰_로그아웃(LoginResponse loginResponse) {
         return RestAssured
                 .given().log().all()
-                .header(AUTHORIZATION, ACCESS_TOKEN_PREFIX + loginResponse.getAccessToken())
+                .header(AUTHORIZATION, convertHeaderAccessToken(loginResponse.getAccessToken()))
                 .when().put("/v1/member/logout")
                 .then().log().all()
                 .extract();

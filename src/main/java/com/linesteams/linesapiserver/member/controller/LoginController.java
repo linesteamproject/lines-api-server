@@ -6,6 +6,7 @@ import com.linesteams.linesapiserver.member.dto.LoginResponse;
 import com.linesteams.linesapiserver.member.service.LogoutService;
 import com.linesteams.linesapiserver.member.service.MemberService;
 import com.linesteams.linesapiserver.resolver.MemberId;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +42,12 @@ public class LoginController {
     public ResponseDto<Void> logout(@MemberId Long memberId,
                                     @RequestHeader(AUTHORIZATION) String accessToken) {
         logoutService.logout(accessToken);
+        return ResponseDto.of(null);
+    }
+
+    @DeleteMapping("/v1/member")
+    public ResponseDto<Void> deleteMember(@MemberId Long memberId) {
+        memberService.deleteMember(memberId);
         return ResponseDto.of(null);
     }
 }
