@@ -1,5 +1,7 @@
 package com.linesteams.linesapiserver.version.domain;
 
+import com.linesteams.linesapiserver.config.jpa.BaseTimeEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,13 +11,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "version")
-public class Version implements Comparable<String> {
+public class Version extends BaseTimeEntity implements Comparable<String> {
     public static final String VERSION_SPLIT = "\\.";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(columnDefinition = "varchar(16)")
     private String version;
 
     public Version() {

@@ -1,6 +1,7 @@
 package com.linesteams.linesapiserver.book.domain;
 
 import com.linesteams.linesapiserver.book.dto.BookInfoItemDto;
+import com.linesteams.linesapiserver.config.jpa.BaseTimeEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,18 +12,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(columnDefinition = "varchar(32)")
     private String isbn;
 
-    @Column
+    @Column(columnDefinition = "varchar(64)")
     private String title;
 
-    @Column
+    @Column(columnDefinition = "varchar(64)")
     private String author;
 
     public Book(String isbn, String title, String author) {

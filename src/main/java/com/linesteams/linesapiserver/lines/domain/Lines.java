@@ -1,9 +1,12 @@
 package com.linesteams.linesapiserver.lines.domain;
 
 import com.linesteams.linesapiserver.book.domain.Book;
+import com.linesteams.linesapiserver.config.jpa.BaseTimeEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,23 +16,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "lines")
-public class Lines {
+@Table(name = "`lines`")
+public class Lines extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(columnDefinition = "varchar(16)")
+    @Enumerated(EnumType.STRING)
     private Ratio ratio;
 
-    @Column
+    @Column(columnDefinition = "varchar(16)")
     private String background;
 
-    @Column
+    @Column(columnDefinition = "varchar(128)")
     private String content;
 
-    @Column
+    @Column(columnDefinition = "int")
     private Long memberId;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")

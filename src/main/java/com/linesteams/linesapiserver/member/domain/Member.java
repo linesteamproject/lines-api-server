@@ -1,5 +1,7 @@
 package com.linesteams.linesapiserver.member.domain;
 
+import com.linesteams.linesapiserver.config.jpa.BaseTimeEntity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,21 +12,21 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "member")
-public class Member {
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "oauth_id")
+    @Column(name = "oauth_id", columnDefinition = "varchar(32)")
     private String oauthId;
 
-    @Column(name = "oauth_type")
+    @Column(name = "oauth_type", columnDefinition = "varchar(16)")
     private OAuthType oauthType;
 
-    @Column(name = "refresh_token")
+    @Column(name = "refresh_token", columnDefinition = "varchar(128)")
     private String refreshToken;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean")
     private boolean deleted;
 
     public Member(String oauthId, OAuthType oauthType) {
