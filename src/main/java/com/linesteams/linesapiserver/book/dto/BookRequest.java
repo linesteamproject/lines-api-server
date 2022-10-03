@@ -29,6 +29,6 @@ public class BookRequest {
     }
 
     public Book toBook() {
-        return new Book(title, name, isbn);
+        return new Book(isbn, title, name);
     }
 }
