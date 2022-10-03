@@ -1,6 +1,6 @@
 spring:
   datasource:
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:testdb;MODE=MySQL;
-    username: sa
-    password: password
+    url:
+      jdbc:mysql://database-1.cmqw9teeittc.ap-northeast-2.rds.amazonaws.com:3306/lines?useSSL=false&serverTimezone=UTC
+    username: root
+    password: Fkdlstm1!
