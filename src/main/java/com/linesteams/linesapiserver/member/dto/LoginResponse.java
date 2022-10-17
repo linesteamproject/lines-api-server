@@ -4,6 +4,8 @@ public class LoginResponse {
     private final String accessToken;
     private final String refreshToken;
 
+    private final Boolean isCreated;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -12,8 +14,13 @@ public class LoginResponse {
         return refreshToken;
     }
 
-    public LoginResponse(String accessToken, String refreshToken) {
+    public Boolean getCreated() {
+        return isCreated;
+    }
+
+    public LoginResponse(String accessToken, String refreshToken, Boolean isCreated) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.isCreated = isCreated;
     }
 }

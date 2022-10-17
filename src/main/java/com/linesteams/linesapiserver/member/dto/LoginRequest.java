@@ -4,6 +4,7 @@ import com.linesteams.linesapiserver.member.domain.OAuthType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 public class LoginRequest {
     private String id;
@@ -11,6 +12,8 @@ public class LoginRequest {
     private String oauthId;
     @NotNull
     private OAuthType oauthType;
+
+    private LocalDateTime requestAt = LocalDateTime.now();
 
     public LoginRequest() {
     }
@@ -43,5 +46,9 @@ public class LoginRequest {
 
     public void setOauthType(OAuthType oauthType) {
         this.oauthType = oauthType;
+    }
+
+    public LocalDateTime getRequestAt() {
+        return this.requestAt;
     }
 }

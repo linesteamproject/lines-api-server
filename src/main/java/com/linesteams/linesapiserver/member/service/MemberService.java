@@ -42,7 +42,7 @@ public class MemberService {
         Member member = createOrUpdate(request.getOauthId(), request.getOauthType());
         String accessToken = jwtService.createAccessToken(member.getId());
 
-        return new LoginResponse(accessToken, member.getRefreshToken());
+        return new LoginResponse(accessToken, member.getRefreshToken(), member.getIsCreated(request.getRequestAt()));
     }
 
     public LoginResponse refreshToken(Long memberId, String refreshToken) {
@@ -51,7 +51,7 @@ public class MemberService {
         if (member.isNotEqualsRefreshToken(refreshToken) && jwtService.isNotValidToken(refreshToken)) {
             throw new RuntimeException("리프레시 토큰값이 일치하지 않거나 토큰이 유효하지 않습니다.");
         }
-        return new LoginResponse(jwtService.createAccessToken(member.getId()), member.getRefreshToken());
+        return new LoginResponse(jwtService.createAccessToken(member.getId()), member.getRefreshToken(), false);
     }
 
     public void deleteMember(Long memberId) {

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -68,5 +69,9 @@ public class Member extends BaseTimeEntity {
 
     public void delete() {
         deleted = true;
+    }
+
+    public boolean getIsCreated(LocalDateTime requestAt) {
+        return requestAt.isBefore(getCreatedDateTime());
     }
 }
