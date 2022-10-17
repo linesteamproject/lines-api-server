@@ -3,7 +3,6 @@ package com.linesteams.linesapiserver.member.dto;
 public class LoginResponse {
     private final String accessToken;
     private final String refreshToken;
-
     private final Boolean isCreated;
 
     public String getAccessToken() {
@@ -14,7 +13,7 @@ public class LoginResponse {
         return refreshToken;
     }
 
-    public Boolean getCreated() {
+    public Boolean getIsCreated() {
         return isCreated;
     }
 
