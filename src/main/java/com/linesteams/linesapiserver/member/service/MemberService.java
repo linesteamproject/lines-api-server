@@ -24,9 +24,10 @@ public class MemberService {
     }
 
     public Member createOrUpdate(String oauthId, OAuthType oauthType) {
-        Member member = memberRepository.findByOauthIdAndOauthTypeAndDeletedFalse(oauthId, oauthType)
+        Member member = memberRepository.findByOauthIdAndOauthType(oauthId, oauthType)
                 .orElseGet(() -> createMember(oauthId, oauthType));
 
+        member.recoveryIfDeleted();
         member.updateRefreshToken(jwtService.createRefreshToken());
 
         return member;

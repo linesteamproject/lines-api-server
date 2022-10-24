@@ -71,6 +71,12 @@ public class Member extends BaseTimeEntity {
         deleted = true;
     }
 
+    public void recoveryIfDeleted() {
+        if (deleted) {
+            deleted = false;
+        }
+    }
+
     public boolean getIsCreated(LocalDateTime requestAt) {
         return requestAt.isBefore(getCreatedDateTime());
     }

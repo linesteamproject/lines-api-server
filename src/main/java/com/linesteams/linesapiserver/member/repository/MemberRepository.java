@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByOauthIdAndOauthTypeAndDeletedFalse(String oauthId, OAuthType oAuthType);
+    Optional<Member> findByOauthIdAndOauthType(String oauthId, OAuthType oAuthType);
 
     Optional<Member> findByIdAndDeletedFalse(Long memberId);
 }
