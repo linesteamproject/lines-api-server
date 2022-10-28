@@ -48,7 +48,7 @@ public class LoginRequest {
         this.oauthType = oauthType;
     }
 
-    public LocalDateTime getRequestAt() {
+    public LocalDateTime requestAt() {
         return this.requestAt;
     }
 }

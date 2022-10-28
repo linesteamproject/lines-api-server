@@ -43,7 +43,7 @@ public class MemberService {
         Member member = createOrUpdate(request.getOauthId(), request.getOauthType());
         String accessToken = jwtService.createAccessToken(member.getId());
 
-        return new LoginResponse(accessToken, member.getRefreshToken(), member.getIsCreated(request.getRequestAt()));
+        return new LoginResponse(accessToken, member.getRefreshToken(), member.getIsCreated(request.requestAt()));
     }
 
     public LoginResponse refreshToken(Long memberId, String refreshToken) {
