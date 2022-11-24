@@ -16,10 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class LinesService {
 
     private final BookService bookService;
+    private final LogService logService;
     private final LinesRepository linesRepository;
 
-    public LinesService(BookService bookService, LinesRepository linesRepository) {
+    public LinesService(BookService bookService, LogService logService, LinesRepository linesRepository) {
         this.bookService = bookService;
+        this.logService = logService;
         this.linesRepository = linesRepository;
     }
 
@@ -34,5 +36,15 @@ public class LinesService {
     public Page<LinesResponse> getLinesList(Long memberId, PageRequest pageRequest) {
         return linesRepository.findAllByMemberId(memberId, pageRequest)
                 .map(LinesResponse::of);
+    }
+
+    public void createShareLog(Long linesId) {
+        Lines lines = getLines(linesId);
+        logService.createShareLog(lines);
+    }
+
+    private Lines getLines(Long linesId) {
+        return linesRepository.findById(linesId)
+                .orElseThrow(() -> new RuntimeException("문구를 찾을 수 없습니다."));
     }
 }

@@ -8,6 +8,7 @@ import com.linesteams.linesapiserver.resolver.MemberId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,5 +35,12 @@ public class LinesController {
                                                          @RequestParam(defaultValue = "10") Integer size,
                                                          @MemberId Long memberId) {
         return ResponseDto.of(linesService.getLinesList(memberId, PageRequest.of(page, size)));
+    }
+
+    @PostMapping("/v1/lines/{id}/share-log")
+    public ResponseDto<Void> createShareLog(@PathVariable Long id) {
+        linesService.createShareLog(id);
+
+        return ResponseDto.of(null);
     }
 }

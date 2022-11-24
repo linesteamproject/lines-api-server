@@ -16,3 +16,7 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/v1/lines
 Authorization: bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiaWF0IjoxNjYyNjUyMzkxLCJleHAiOjE2NjMwODQzOTF9.oGHTX29CEU0DSj6qzkvT1wrdY8Uhij3jaaIf769y5bU
+
+###
+POST http://localhost:8080/v1/lines/1/share-log
+Content-Type: application/json

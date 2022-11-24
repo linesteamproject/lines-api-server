@@ -59,6 +59,19 @@ class LinesAcceptanceTest extends AcceptanceTest {
         assertThat(list.get(1).content).isEqualTo(데미안.getContent());
     }
 
+    @DisplayName("문구 공유 로그를 생성할 수 있다")
+    @Test
+    void createShareLog() {
+        accessToken = MemberAcceptanceTest.로그인_엑세스_토큰_획득();
+        // when
+        LinesResponse linesResponse = 문구_생성_요청_결과(노인과_바다);
+
+        // then
+        ExtractableResponse<Response> response = 문구_공유_로그_생성_요청(linesResponse.id);
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
     private ExtractableResponse<Response> 문구_리스트_요청(PageRequest pageRequest) {
         return 문구_리스트_요청(pageRequest, accessToken);
     }
@@ -72,6 +85,12 @@ class LinesAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
+    private LinesResponse 문구_생성_요청_결과(LinesRequest request) {
+        return 문구_생성_요청(request)
+                .jsonPath()
+                .getObject("responseData", LinesResponse.class);
+    }
+
     private ExtractableResponse<Response> 문구_생성_요청(LinesRequest request) {
         return RestAssured
                 .given().log().all()
@@ -79,6 +98,15 @@ class LinesAcceptanceTest extends AcceptanceTest {
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/v1/lines")
+                .then().log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 문구_공유_로그_생성_요청(Long linesId) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/v1/lines/{id}/share-log", linesId)
                 .then().log().all()
                 .extract();
     }

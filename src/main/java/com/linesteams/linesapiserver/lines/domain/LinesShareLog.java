@@ -1,26 +1,29 @@
 package com.linesteams.linesapiserver.lines.domain;
 
-import com.linesteams.linesapiserver.book.domain.Book;
-import com.linesteams.linesapiserver.config.jpa.BaseTimeEntity;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "`lines`")
-public class Lines extends BaseTimeEntity {
+@Table(name = "lines_share_log")
+@EntityListeners(AuditingEntityListener.class)
+public class LinesShareLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(columnDefinition = "int")
+    private Long linesId;
 
     @Column(columnDefinition = "varchar(16)")
     @Enumerated(EnumType.STRING)
@@ -29,29 +32,24 @@ public class Lines extends BaseTimeEntity {
     @Column(columnDefinition = "varchar(16)")
     private String background;
 
-    @Column(columnDefinition = "varchar(128)")
-    private String content;
+    @CreatedDate
+    private LocalDateTime createdDateTime;
 
-    @Column(columnDefinition = "int")
-    private Long memberId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
-    private Book book;
-
-    public Lines(Ratio ratio, String background, String content, Long memberId, Book book) {
-        this.ratio = ratio;
-        this.background = background;
-        this.content = content;
-        this.memberId = memberId;
-        this.book = book;
+    public LinesShareLog() {
     }
 
-    public Lines() {
+    public LinesShareLog(Long linesId, Ratio ratio, String background) {
+        this.linesId = linesId;
+        this.ratio = ratio;
+        this.background = background;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Long getLinesId() {
+        return linesId;
     }
 
     public Ratio getRatio() {
@@ -62,11 +60,7 @@ public class Lines extends BaseTimeEntity {
         return background;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public Book getBook() {
-        return book;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 }
