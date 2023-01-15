@@ -24,8 +24,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 class LinesAcceptanceTest extends AcceptanceTest {
     private final BookRequest 노인과_바다_책 = new BookRequest("노인과 바다", "해밍웨이", "9788937462788");
     private final BookRequest 데미안_책 = new BookRequest("데미안_책", "헤르만헤세", "9788937460449");
-    public LinesCreateRequest 노인과_바다 = new LinesCreateRequest("노인과 바다는 좋다", 노인과_바다_책, Ratio.ONE_BY_ONE, "#111111");
-    public LinesCreateRequest 데미안 = new LinesCreateRequest("데미안은 좋다", 데미안_책, Ratio.THREE_BY_FOUR, "#ffffff");
+    public LinesCreateRequest 노인과_바다 = new LinesCreateRequest("노인과 바다는 좋다", 노인과_바다_책, Ratio.ONE_BY_ONE, "#111111", "sanslif", "right");
+    public LinesCreateRequest 데미안 = new LinesCreateRequest("데미안은 좋다", 데미안_책, Ratio.THREE_BY_FOUR, "#ffffff", "godic", "left");
     private String accessToken;
 
     @DisplayName("문구를 생성한다")
@@ -39,6 +39,8 @@ class LinesAcceptanceTest extends AcceptanceTest {
         LinesResponse result = response.jsonPath().getObject("responseData", LinesResponse.class);
         assertThat(result.id).isNotNull();
         assertThat(result.content).isEqualTo(노인과_바다.getContent());
+        assertThat(result.getFont()).isEqualTo(노인과_바다.getFont());
+        assertThat(result.getTextAlignment()).isEqualTo(노인과_바다.getTextAlignment());
         assertThat(result.bookResponse).isNotNull();
     }
 
@@ -48,13 +50,15 @@ class LinesAcceptanceTest extends AcceptanceTest {
         accessToken = MemberAcceptanceTest.로그인_엑세스_토큰_획득();
         // when
         LinesResponse linesResponse = 문구_생성_요청_결과(노인과_바다);
-        ExtractableResponse<Response> response = 문구_수정_요청(new LinesUpdateRequest(데미안.getContent(), 데미안.getRatio(), 데미안.getBackground()), linesResponse.getId());
+        ExtractableResponse<Response> response = 문구_수정_요청(new LinesUpdateRequest(데미안.getContent(), 데미안.getRatio(), 데미안.getBackground(), 데미안.getFont(), 데미안.getTextAlignment()), linesResponse.getId());
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         LinesResponse result = response.jsonPath().getObject("responseData", LinesResponse.class);
         assertThat(result.getContent()).isEqualTo(데미안.getContent());
         assertThat(result.getRatio()).isEqualTo(데미안.getRatio());
         assertThat(result.getBackground()).isEqualTo(데미안.getBackground());
+        assertThat(result.getFont()).isEqualTo(데미안.getFont());
+        assertThat(result.getTextAlignment()).isEqualTo(데미안.getTextAlignment());
     }
 
     @DisplayName("문구를 지울 수 있다")

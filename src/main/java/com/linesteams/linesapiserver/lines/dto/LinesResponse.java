@@ -8,13 +8,17 @@ public class LinesResponse {
     public Long id;
     public Ratio ratio;
     public String background;
+    public String font;
+    public String textAlignment;
     public String content;
     public BookResponse bookResponse;
 
-    public LinesResponse(Long id, Ratio ratio, String background, String content, BookResponse bookResponse) {
+    public LinesResponse(Long id, Ratio ratio, String background, String font, String textAlignment, String content, BookResponse bookResponse) {
         this.id = id;
         this.ratio = ratio;
         this.background = background;
+        this.font = font;
+        this.textAlignment = textAlignment;
         this.content = content;
         this.bookResponse = bookResponse;
     }
@@ -23,7 +27,7 @@ public class LinesResponse {
     }
 
     public static LinesResponse of(Lines lines) {
-        return new LinesResponse(lines.getId(), lines.getRatio(), lines.getBackground(), lines.getContent(), BookResponse.of(lines.getBook()));
+        return new LinesResponse(lines.getId(), lines.getRatio(), lines.getBackground(), lines.getFont(), lines.getTextAlignment(), lines.getContent(), BookResponse.of(lines.getBook()));
     }
 
     public Long getId() {
@@ -36,6 +40,14 @@ public class LinesResponse {
 
     public String getBackground() {
         return background;
+    }
+
+    public String getFont() {
+        return font;
+    }
+
+    public String getTextAlignment() {
+        return textAlignment;
     }
 
     public String getContent() {

@@ -30,6 +30,12 @@ public class Lines extends BaseTimeEntity {
     @Column(columnDefinition = "varchar(16)")
     private String background;
 
+    @Column(columnDefinition = "varchar(16)")
+    private String font;
+
+    @Column(columnDefinition = "varchar(16)")
+    private String textAlignment;
+
     @Column(columnDefinition = "varchar(128)")
     private String content;
 
@@ -40,12 +46,14 @@ public class Lines extends BaseTimeEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Column(name = "deleted", columnDefinition = "boolean")
+    @Column(columnDefinition = "boolean")
     private boolean deleted;
 
-    public Lines(Ratio ratio, String background, String content, Long memberId, Book book, boolean deleted) {
+    public Lines(Ratio ratio, String background, String font, String textAlignment, String content, Long memberId, Book book, boolean deleted) {
         this.ratio = ratio;
         this.background = background;
+        this.font = font;
+        this.textAlignment = textAlignment;
         this.content = content;
         this.memberId = memberId;
         this.book = book;
@@ -67,6 +75,14 @@ public class Lines extends BaseTimeEntity {
         return background;
     }
 
+    public String getFont() {
+        return font;
+    }
+
+    public String getTextAlignment() {
+        return textAlignment;
+    }
+
     public String getContent() {
         return content;
     }
@@ -79,6 +95,8 @@ public class Lines extends BaseTimeEntity {
         this.ratio = request.getRatio();
         this.background = request.getBackground();
         this.content = request.getContent();
+        this.font = request.getFont();
+        this.textAlignment = request.getTextAlignment();
     }
 
     public void delete() {

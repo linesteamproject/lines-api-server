@@ -7,18 +7,21 @@ public class LinesUpdateRequest {
 
     private Long memberId;
 
-    private String content;
-
-    private Ratio ratio;
     private String background;
+    private String font;
+    private String textAlignment;
+    private String content;
+    private Ratio ratio;
 
     public LinesUpdateRequest() {
     }
 
-    public LinesUpdateRequest(String content, Ratio ratio, String background) {
+    public LinesUpdateRequest(String content, Ratio ratio, String background, String font, String textAlignment) {
         this.content = content;
         this.ratio = ratio;
         this.background = background;
+        this.font = font;
+        this.textAlignment = textAlignment;
     }
 
     public Long getId() {
@@ -29,16 +32,24 @@ public class LinesUpdateRequest {
         this.id = id;
     }
 
+    public String getBackground() {
+        return background;
+    }
+
+    public String getFont() {
+        return font;
+    }
+
+    public String getTextAlignment() {
+        return textAlignment;
+    }
+
     public String getContent() {
         return content;
     }
 
     public Ratio getRatio() {
         return ratio;
-    }
-
-    public String getBackground() {
-        return background;
     }
 
     public Long getMemberId() {
