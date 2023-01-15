@@ -2,6 +2,7 @@ package com.linesteams.linesapiserver.lines.domain;
 
 import com.linesteams.linesapiserver.book.domain.Book;
 import com.linesteams.linesapiserver.config.jpa.BaseTimeEntity;
+import com.linesteams.linesapiserver.lines.dto.LinesUpdateRequest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,12 +40,16 @@ public class Lines extends BaseTimeEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    public Lines(Ratio ratio, String background, String content, Long memberId, Book book) {
+    @Column(name = "deleted", columnDefinition = "boolean")
+    private boolean deleted;
+
+    public Lines(Ratio ratio, String background, String content, Long memberId, Book book, boolean deleted) {
         this.ratio = ratio;
         this.background = background;
         this.content = content;
         this.memberId = memberId;
         this.book = book;
+        this.deleted = deleted;
     }
 
     public Lines() {
@@ -68,5 +73,15 @@ public class Lines extends BaseTimeEntity {
 
     public Book getBook() {
         return book;
+    }
+
+    public void update(LinesUpdateRequest request) {
+        this.ratio = request.getRatio();
+        this.background = request.getBackground();
+        this.content = request.getContent();
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 }

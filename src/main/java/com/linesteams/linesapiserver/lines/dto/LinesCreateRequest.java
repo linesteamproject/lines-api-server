@@ -6,17 +6,17 @@ import com.linesteams.linesapiserver.book.dto.BookRequest;
 import com.linesteams.linesapiserver.lines.domain.Lines;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
 
-public class LinesRequest {
+public class LinesCreateRequest {
     public String content;
     public BookRequest book;
     public Ratio ratio;
     public String background;
     public Long memberId;
 
-    public LinesRequest() {
+    public LinesCreateRequest() {
     }
 
-    public LinesRequest(String content, BookRequest book, Ratio ratio, String background) {
+    public LinesCreateRequest(String content, BookRequest book, Ratio ratio, String background) {
         this.content = content;
         this.book = book;
         this.ratio = ratio;
@@ -41,7 +41,7 @@ public class LinesRequest {
     }
 
     public Lines toLines(Book book) {
-        return new Lines(ratio, background, content, memberId, book);
+        return new Lines(ratio, background, content, memberId, book, false);
     }
 
     public void setMemberId(Long memberId) {

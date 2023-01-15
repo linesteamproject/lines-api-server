@@ -3,8 +3,9 @@ package com.linesteams.linesapiserver.lines.acceptance;
 import com.linesteams.linesapiserver.AcceptanceTest;
 import com.linesteams.linesapiserver.book.dto.BookRequest;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
-import com.linesteams.linesapiserver.lines.dto.LinesRequest;
+import com.linesteams.linesapiserver.lines.dto.LinesCreateRequest;
 import com.linesteams.linesapiserver.lines.dto.LinesResponse;
+import com.linesteams.linesapiserver.lines.dto.LinesUpdateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -23,8 +24,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 class LinesAcceptanceTest extends AcceptanceTest {
     private final BookRequest 노인과_바다_책 = new BookRequest("노인과 바다", "해밍웨이", "9788937462788");
     private final BookRequest 데미안_책 = new BookRequest("데미안_책", "헤르만헤세", "9788937460449");
-    public LinesRequest 노인과_바다 = new LinesRequest("노인과 바다는 좋다", 노인과_바다_책, Ratio.ONE_BY_ONE, "#111111");
-    public LinesRequest 데미안 = new LinesRequest("데미안은 좋다", 데미안_책, Ratio.THREE_BY_FOUR, "#ffffff");
+    public LinesCreateRequest 노인과_바다 = new LinesCreateRequest("노인과 바다는 좋다", 노인과_바다_책, Ratio.ONE_BY_ONE, "#111111");
+    public LinesCreateRequest 데미안 = new LinesCreateRequest("데미안은 좋다", 데미안_책, Ratio.THREE_BY_FOUR, "#ffffff");
     private String accessToken;
 
     @DisplayName("문구를 생성한다")
@@ -39,6 +40,39 @@ class LinesAcceptanceTest extends AcceptanceTest {
         assertThat(result.id).isNotNull();
         assertThat(result.content).isEqualTo(노인과_바다.getContent());
         assertThat(result.bookResponse).isNotNull();
+    }
+
+    @DisplayName("문구를 수정한다")
+    @Test
+    void updateLines() {
+        accessToken = MemberAcceptanceTest.로그인_엑세스_토큰_획득();
+        // when
+        LinesResponse linesResponse = 문구_생성_요청_결과(노인과_바다);
+        ExtractableResponse<Response> response = 문구_수정_요청(new LinesUpdateRequest(데미안.getContent(), 데미안.getRatio(), 데미안.getBackground()), linesResponse.getId());
+
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        LinesResponse result = response.jsonPath().getObject("responseData", LinesResponse.class);
+        assertThat(result.getContent()).isEqualTo(데미안.getContent());
+        assertThat(result.getRatio()).isEqualTo(데미안.getRatio());
+        assertThat(result.getBackground()).isEqualTo(데미안.getBackground());
+    }
+
+    @DisplayName("문구를 지울 수 있다")
+    @Test
+    void deleteLines() {
+        accessToken = MemberAcceptanceTest.로그인_엑세스_토큰_획득();
+        // when
+        LinesResponse linesResponse = 문구_생성_요청_결과(노인과_바다);
+
+        // then
+        ExtractableResponse<Response> deleteResponse = 문구_제거_요청(linesResponse.getId());
+        assertThat(deleteResponse.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        ExtractableResponse<Response> response = 문구_리스트_요청(PageRequest.of(0, 10));
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+        List<LinesResponse> list = response.jsonPath().getList("responseData.content", LinesResponse.class);
+        assertThat(list).isEmpty();
     }
 
     @DisplayName("저장된 문구들을 조회할 수 있다")
@@ -85,19 +119,40 @@ class LinesAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private LinesResponse 문구_생성_요청_결과(LinesRequest request) {
+    private LinesResponse 문구_생성_요청_결과(LinesCreateRequest request) {
         return 문구_생성_요청(request)
                 .jsonPath()
                 .getObject("responseData", LinesResponse.class);
     }
 
-    private ExtractableResponse<Response> 문구_생성_요청(LinesRequest request) {
+    private ExtractableResponse<Response> 문구_생성_요청(LinesCreateRequest request) {
         return RestAssured
                 .given().log().all()
                 .header(AUTHORIZATION, accessToken)
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/v1/lines")
+                .then().log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 문구_수정_요청(LinesUpdateRequest request, Long linesId) {
+        return RestAssured
+                .given().log().all()
+                .header(AUTHORIZATION, accessToken)
+                .body(request)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/v1/lines/{id}", linesId)
+                .then().log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 문구_제거_요청(Long linesId) {
+        return RestAssured
+                .given().log().all()
+                .header(AUTHORIZATION, accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().delete("/v1/lines/{id}", linesId)
                 .then().log().all()
                 .extract();
     }
