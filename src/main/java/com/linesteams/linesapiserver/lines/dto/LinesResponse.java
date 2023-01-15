@@ -5,13 +5,13 @@ import com.linesteams.linesapiserver.lines.domain.Lines;
 import com.linesteams.linesapiserver.lines.domain.Ratio;
 
 public class LinesResponse {
-    public Long id;
-    public Ratio ratio;
-    public String background;
-    public String font;
-    public String textAlignment;
-    public String content;
-    public BookResponse bookResponse;
+    private Long id;
+    private Ratio ratio;
+    private String background;
+    private String font;
+    private String textAlignment;
+    private String content;
+    private BookResponse bookResponse;
 
     public LinesResponse(Long id, Ratio ratio, String background, String font, String textAlignment, String content, BookResponse bookResponse) {
         this.id = id;

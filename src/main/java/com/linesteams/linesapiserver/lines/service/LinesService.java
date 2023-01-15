@@ -34,6 +34,7 @@ public class LinesService {
         return LinesResponse.of(lines);
     }
 
+    @Transactional(readOnly = true)
     public Page<LinesResponse> getLinesList(Long memberId, PageRequest pageRequest) {
         return linesRepository.findAllByMemberIdAndDeleted(memberId, pageRequest, false)
                 .map(LinesResponse::of);

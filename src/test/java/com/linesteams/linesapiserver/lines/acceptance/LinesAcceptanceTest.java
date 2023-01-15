@@ -37,11 +37,11 @@ class LinesAcceptanceTest extends AcceptanceTest {
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         LinesResponse result = response.jsonPath().getObject("responseData", LinesResponse.class);
-        assertThat(result.id).isNotNull();
-        assertThat(result.content).isEqualTo(노인과_바다.getContent());
+        assertThat(result.getId()).isNotNull();
+        assertThat(result.getContent()).isEqualTo(노인과_바다.getContent());
         assertThat(result.getFont()).isEqualTo(노인과_바다.getFont());
         assertThat(result.getTextAlignment()).isEqualTo(노인과_바다.getTextAlignment());
-        assertThat(result.bookResponse).isNotNull();
+        assertThat(result.getBookResponse()).isNotNull();
     }
 
     @DisplayName("문구를 수정한다")
@@ -93,8 +93,8 @@ class LinesAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
         List<LinesResponse> list = response.jsonPath().getList("responseData.content", LinesResponse.class);
-        assertThat(list.get(0).content).isEqualTo(노인과_바다.getContent());
-        assertThat(list.get(1).content).isEqualTo(데미안.getContent());
+        assertThat(list.get(0).getContent()).isEqualTo(노인과_바다.getContent());
+        assertThat(list.get(1).getContent()).isEqualTo(데미안.getContent());
     }
 
     @DisplayName("문구 공유 로그를 생성할 수 있다")
@@ -105,7 +105,7 @@ class LinesAcceptanceTest extends AcceptanceTest {
         LinesResponse linesResponse = 문구_생성_요청_결과(노인과_바다);
 
         // then
-        ExtractableResponse<Response> response = 문구_공유_로그_생성_요청(linesResponse.id);
+        ExtractableResponse<Response> response = 문구_공유_로그_생성_요청(linesResponse.getId());
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
