@@ -63,7 +63,7 @@ public class LinesService {
     }
 
     public void deleteLines(Long memberId, Long id) {
-        Lines lines = getMyLines(id, memberId);
+        Lines lines = getMyLines(memberId, id);
         lines.delete();
     }
 }
