@@ -56,7 +56,7 @@ public class LinesService {
     }
 
     public LinesResponse updateLines(LinesUpdateRequest request) {
-        Lines lines = getMyLines(request.getId(), request.getMemberId());
+        Lines lines = getMyLines(request.getMemberId(), request.getId());
         lines.update(request);
 
         return LinesResponse.of(lines);
